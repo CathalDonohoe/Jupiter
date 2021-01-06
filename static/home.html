@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Flask app</title>
+    <link href="/static/css/style.css" rel="stylesheet">
+</head>
+
+
+<body>
+
+    <div class="container">
+        <div class="left">
+            <div class="header">
+                <h2 class="animation a1">Wind Calculator</h2>
+                <h4 class="animation a2">Enter Speed to get predicted power</h4>
+            </div>
+            <div class="form">
+                <input type="number" name="sValue" class="form-field animation a3" id="sValue" placeholder="Enter a positive value" required />
+                <input type="name" name="pValue" class="form-field animation a3" id="pValue" placeholder="Your prediction" readonly  />
+                <button class="animation a6" onclick="calculate();">Get power</button>    
+            </div>
+            
+        </div>
+        <div class="right"></div>
+    </div>
+</body>
+
+
+<script>
+
+    function predict(otherPrams) {
+      value = fetch('/predict', otherPrams)
+        .then(data => { return data.json() })
+        .then(res => { return res })
+        .catch(error => console.log(error))
+      return value
+    }
+  
+    // Adapted from stack overflow posts.
+    async function calculate() {
+      var speed = document.getElementById("sValue").value
+      document.getElementById('pValue').value = "Please wait...";
+  
+      const otherPrams = {
+        body: JSON.stringify({speed: speed}),
+        method: "POST"
+      }
+      document.getElementById('pValue').value = await predict(otherPrams);
+    }
+  
+  </script>
+</html>

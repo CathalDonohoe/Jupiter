@@ -21,3 +21,19 @@ app = Flask(__name__)
 @app.route('/')
 def runner():
     return app.send_static_file('home.html')
+
+@app.route('/index', methods=['GET'])
+def index():
+    return app.send_static_file('index.html')
+
+
+@app.route('/predict', methods=['POST'])
+def parse_request():
+    requestData = request.data
+    jsonData = json.loads(requestData)
+    speedPredict = float(jsonData['speed'])
+    ppmodel = kr.models.load_model('powerproduction.h5')
+    predict = ppmodel.predict([speedPredict])
+    flatten = predict.flatten()
+    print(flatten[0])
+    return str(flatten[0])
