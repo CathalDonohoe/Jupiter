@@ -23,14 +23,16 @@ app = Flask(__name__)
 def runner():
     return app.send_static_file('home.html')
 
+
 #post request
+#This route retrieves data from the POST request made in the home.html page
+#This uses JSON library to make it into a JSON object
+#This is used for the predict model
+#Casted as string
 @app.route('/predict', methods=['POST'])
 def parse_request():
-    requestData = request.data
-    jsonData = json.loads(requestData)
-    speedPredict = float(jsonData['speed'])
+    jsonData = json.loads(request.data) 
     ppmodel = kr.models.load_model('powerproduction.h5')
-    predict = ppmodel.predict([speedPredict])
-    flatten = predict.flatten()
-    print(flatten[0])
+    predict = ppmodel.predict([float(jsonData['speed'])])
+    flatten = predict.flatten() # flattened 2D array into 1D
     return str(flatten[0])
