@@ -22,11 +22,6 @@ app = Flask(__name__)
 def runner():
     return app.send_static_file('home.html')
 
-@app.route('/index', methods=['GET'])
-def index():
-    return app.send_static_file('index.html')
-
-
 @app.route('/predict', methods=['POST'])
 def parse_request():
     requestData = request.data
