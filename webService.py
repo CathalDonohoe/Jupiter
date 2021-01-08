@@ -18,10 +18,12 @@ import json
 
 app = Flask(__name__)
 
+#route html
 @app.route('/')
 def runner():
     return app.send_static_file('home.html')
 
+#post request
 @app.route('/predict', methods=['POST'])
 def parse_request():
     requestData = request.data

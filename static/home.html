@@ -29,6 +29,7 @@
 
 <script>
 
+    // predict function 
     function predict(otherPrams) {
       value = fetch('/predict', otherPrams)
         .then(data => { return data.json() })
